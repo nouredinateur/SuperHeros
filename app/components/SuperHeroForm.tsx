@@ -26,6 +26,7 @@ export default function SuperHeroForm({ onAddSuperhero }: SuperheroFormProps) {
   const [superpower, setSuperpower] = useState("");
   const [avatar, setAvatar] = useState("");
   const [humilityScore, setHumilityScore] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,12 +37,13 @@ export default function SuperHeroForm({ onAddSuperhero }: SuperheroFormProps) {
       setSuperpower("");
       setAvatar("");
       setHumilityScore("");
+      setOpen(false);
     }
   };
 
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild className="my-6">
           <Button variant="outline">Add a superhero</Button>
         </DialogTrigger>
