@@ -3,14 +3,22 @@
 import { useState, useEffect } from "react";
 import SuperheroForm from "./components/SuperHeroForm";
 import SuperheroList from "./components/SuperheroList";
+import Loader from "./components/Loader";
 import type { Superhero } from "./types";
 
 export default function Home() {
   const [superheroes, setSuperheroes] = useState<Superhero[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchSuperheroes();
   }, []);
+
+  useEffect(() => {
+    if (superheroes.length > 0) {
+      setLoading(false);
+    }
+  }, [superheroes]);
 
   const fetchSuperheroes = async () => {
     try {
@@ -65,10 +73,14 @@ export default function Home() {
         Humble Superhero API
       </h1>
       <SuperheroForm onAddSuperhero={addSuperhero} />
-      <SuperheroList
-        superheroes={superheroes}
-        onDeleteSuperhero={deleteSuperhero}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <SuperheroList
+          superheroes={superheroes}
+          onDeleteSuperhero={deleteSuperhero}
+        />
+      )}
     </div>
   );
 }
